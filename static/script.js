@@ -9,14 +9,24 @@
     popup.classList.toggle('hidden');
   });
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const question = input.value.trim();
     if (!question) return;
     addMessage('Vous', question);
-    const answer = findAnswer(question);
-    addMessage('Bot', answer);
     input.value = '';
+    try {
+      const r = await fetch('/chat', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({message: question})
+      });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const data = await r.json();
+      addMessage('Bot', data.answer);
+    } catch(err) {
+      addMessage('Bot', 'Erreur lors de la réponse.');
+    }
   });
 
   function addMessage(sender, text) {
@@ -24,28 +34,5 @@
     div.textContent = sender + ': ' + text;
     messages.appendChild(div);
     messages.scrollTop = messages.scrollHeight;
-  }
-
-  function findAnswer(question) {
-    const text = document.body.innerText;
-    const sentences = text.split(/(?<=[.!?])\s+/);
-    const words = question.toLowerCase().split(/\s+/).filter(w => w.length > 3);
-    let bestSentence = '';
-    let bestScore = 0;
-    sentences.forEach(sentence => {
-      const sLower = sentence.toLowerCase();
-      let score = 0;
-      words.forEach(word => {
-        if (sLower.includes(word)) score++;
-      });
-      if (score > bestScore) {
-        bestScore = score;
-        bestSentence = sentence;
-      }
-    });
-    if (bestScore === 0) {
-      return "Je ne sais pas. Pouvez-vous reformuler ?";
-    }
-    return bestSentence;
   }
 })();
