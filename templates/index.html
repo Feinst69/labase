@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Base</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <header>
+    <h1>La Base</h1>
+    <nav>
+      <ul>
+        <li><a href="#accueil">Accueil</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="accueil">
+      <h2>Bienvenue à La Base</h2>
+      <p>La Base est un espace associatif à Paris qui accueille des collectifs et des personnes engagées. C'est un lieu de rencontre et de travail partagé pour les mouvements sociaux et écologistes.</p>
+    </section>
+
+    <section id="services">
+      <h2>Nos services</h2>
+      <p>Nous proposons des espaces de coworking, des salles de réunion et un bar associatif. Des événements militants et festifs sont organisés régulièrement.</p>
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>Pour plus d'informations, écrivez-nous à <a href="mailto:contact@la-base.org">contact@la-base.org</a>.</p>
+    </section>
+  </main>
+
+  <button id="chat-open" aria-label="Ouvrir le chat">Chat</button>
+  <div id="chat-popup" class="hidden">
+    <div id="chat-header">Chatbot</div>
+    <div id="chat-messages"></div>
+    <form id="chat-form">
+      <input type="text" id="chat-input" placeholder="Posez votre question" autocomplete="off" />
+      <button type="submit">Envoyer</button>
+    </form>
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
